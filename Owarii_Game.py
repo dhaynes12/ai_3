@@ -21,20 +21,70 @@ class Board:
         # Move Checking
         if (player == SOUTH and (pos > 6 or pos < 0)):
             return False, INVALID_MOVE_SOUTH
-        else if (player == NORTH and (pos < 7 or pos > 12):
+        elif (player == NORTH and (pos < 7 or pos > 12)):
             return False, INVALID_MOVE_NORTH
-        else if (spaces[pit] == 0):
+        elif (spaces[pit] == 0):
             return False, INVALID_MOVE_EMPTY
             
         # Making the Move
         stones = spaces[pos]
         spaces[pos] = 0
-        for i in range(1, stones+1):
-            spaces[pos+i] += 1
+        drops = 0
+        nextPos = pos
+        while(drops <= spaces):
+            if (player == SOUTH and pos != 13) or (player == NORTH and pos != 6):
+                spaces[nextPos] += 1
+                drops += 1
+            
+            nextPos += 1
+            if nextPos > 13:
+                nextPos = 0
         
         return True, ""
+    
+    def checkEndState():
+        isEnd = True
+        
+        #Check South side
+        for i in range(0, 6):
+            if self.spaces[i] is not 0:
+                isEnd = False
+                break
+        
+        #Check North side
+        if not isEnd:
+            isEnd = True
+            for i in range(7, 13):
+                if self.spaces[i] is not 0:
+                    isEnd = False
+                    break
+        
+        if not isEnd:
+            return False
+        
+        # -- End-Game Distribution --
+        #South-Side
+        for i in range(0, 6):
+            if self.spaces[i] is not 0:
+                self.spaces[6] += self.spaces[i]
+                self.spaces[i] = 0
+        
+        #North-Side
+        for i in range(7, 13):
+            if self.spaces[i] is not 0:
+                self.spaces[13] += self.spaces[i]
+                self.spaces[i] = 0
+        
+        return True
 
 def main():
+    board = Board()
+    print(board.spaces)
+    board.move(0, 4)
+    print(board.spaces)
+    success, mess = board.move(1, 4)
+    print(mess)
+    print(board.spaces)
     print("Hello World")
 
 if __name__ == '__main__':
