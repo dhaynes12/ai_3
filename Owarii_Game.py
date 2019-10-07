@@ -29,7 +29,7 @@ class Board:
             if i != 6 and i != 13:
                 self.spaces.append(3)
             else:
-                self.spaces.append(10)
+                self.spaces.append(0)
     
     def move(self, player, pos):
         # Move Checking
@@ -49,11 +49,11 @@ class Board:
         return True, ""
 
     def printBoard(self):
-        print(" **NORTH**")
-        print(" ",self.spaces[12], self.spaces[11], self.spaces[10], self.spaces[9], self.spaces[8], self.spaces[7])
-        print(self.spaces[13], "           ", self.spaces[6])
-        print(" ",self.spaces[0], self.spaces[1], self.spaces[2], self.spaces[3], self.spaces[4], self.spaces[5])
-        print(" **SOUTH**")
+        print("       **NORTH**")
+        print(" %3s %2s %2s %2s %2s %2s" % (self.spaces[12], self.spaces[11], self.spaces[10], self.spaces[9], self.spaces[8], self.spaces[7]))
+        print("%2s %15s %3s" % (self.spaces[13], "", self.spaces[6]))
+        print(" %3s %2s %2s %2s %2s %2s" % (self.spaces[0], self.spaces[1], self.spaces[2], self.spaces[3], self.spaces[4], self.spaces[5]))
+        print("       **SOUTH**")
 
 
 def main():
