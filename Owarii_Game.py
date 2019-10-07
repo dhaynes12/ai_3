@@ -33,9 +33,9 @@ class Board:
         # Move Checking
         if (player == SOUTH and (pos > 6 or pos < 0)):
             return False, INVALID_MOVE_SOUTH
-        else if (player == NORTH and (pos < 7 or pos > 12):
+        elif (player == NORTH and (pos < 7 or pos > 12)):
             return False, INVALID_MOVE_NORTH
-        else if (spaces[pit] == 0):
+        elif (spaces[pit] == 0):
             return False, INVALID_MOVE_EMPTY
             
         # Making the Move
