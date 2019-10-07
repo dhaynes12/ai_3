@@ -29,25 +29,25 @@ class Board:
             if i != 6 and i != 13:
                 self.spaces.append(3)
             else:
-                self.spaces.append(10)
+                self.spaces.append(0)
     
     def move(self, player, pos):
         # Move Checking
-        if (player == SOUTH and (pos > 6 or pos < 0)):
-            return False, INVALID_MOVE_SOUTH
-        elif (player == NORTH and (pos < 7 or pos > 12)):
-            return False, INVALID_MOVE_NORTH
-        elif (spaces[pit] == 0):
-            return False, INVALID_MOVE_EMPTY
+        if (player == Board.SOUTH and (pos > 6 or pos < 0)):
+            return False, Board.INVALID_MOVE_SOUTH
+        elif (player == Board.NORTH and (pos < 7 or pos > 12)):
+            return False, Board.INVALID_MOVE_NORTH
+        elif (self.spaces[pos] == 0):
+            return False, Board.INVALID_MOVE_EMPTY
             
         # Making the Move
-        stones = spaces[pos]
-        spaces[pos] = 0
+        stones = self.spaces[pos]
+        self.spaces[pos] = 0
         drops = 0
         nextPos = pos
-        while(drops <= spaces):
-            if (player == SOUTH and pos != 13) or (player == NORTH and pos != 6):
-                spaces[nextPos] += 1
+        while(drops <= stones):
+            if (player == Board.SOUTH and pos != 13) or (player == Board.NORTH and pos != 6):
+                self.spaces[nextPos] += 1
                 drops += 1
             
             nextPos += 1
@@ -56,7 +56,7 @@ class Board:
         
         return True, ""
     
-    def checkEndState():
+    def checkEndState(self):
         isEnd = True
         
         #Check South side
@@ -100,17 +100,8 @@ class Board:
 
 
 def main():
-    board = Board()
-    print(board.spaces)
-    board.move(0, 4)
-    print(board.spaces)
-    success, mess = board.move(1, 4)
-    print(mess)
-    print(board.spaces)
-    print("Hello World")
-    
-    #brd = Board()
-    #brd.printBoard();
+    brd = Board()
+    brd.printBoard()
     #print(GetWhoMovesFirst())
 
 if __name__ == '__main__':
