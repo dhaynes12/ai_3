@@ -102,7 +102,7 @@ class Board(object):
 def main():
     brd = Board()
     brd.printBoard()
-    #print(GetWhoMovesFirst())
+    first = GetWhoMovesFirst()
 
 if __name__ == '__main__':
     main()
