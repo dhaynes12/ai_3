@@ -12,7 +12,7 @@ def GetWhoMovesFirst():
             print("Improper input. Please try again.")
 
 
-class Board:
+class Board(object):
     SOUTH = 0
     NORTH = 1
     INVALID_MOVE_SOUTH = "South can only make moves on spaces 0-5"
