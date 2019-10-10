@@ -26,7 +26,7 @@ class Node(object):
             else:
                 # need to add optional state pass to board
                 tempState = Board(self.state.spaces)
-        self.nextMoves.append(Node())
+                self.nextMoves.append(Node())
 
     # Generate how good a move is if node is a leaf node
     def setWeight(self):
