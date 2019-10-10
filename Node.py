@@ -20,6 +20,7 @@ class Node(object):
 
     def genNextMoves(self):
         nextStates = []
+        # Need to fix for whos turn it is i.e. 0 is CPU and 1 is human
         for i in range(0,6):
             if self.state.spaces[i] == 0:
                 continue
@@ -34,4 +35,24 @@ class Node(object):
 
 
 
-
+def ABPruning (node, alpha, beta):
+    node.alpha = alpha
+    node.beta = beta
+    if not node.nextMoves:
+        return node.weight
+    elif node.depth % 2 == 1:
+        for i in node.nextMoves:
+            tempVal = ABPruning(i, node.alpha, node.beta)
+            if tempVal < node.beta:
+                node.beta = tempVal
+            if node.beta <= node.alpha:
+                break
+        return node.beta
+    else:
+        for i in node.nextMoves:
+            tempVal = ABPruning(i, node.alpha, node.beta)
+            if tempVal > node.alpha:
+                node.alpha = tempVal
+            if node.beta <= node.alpha:
+                break
+        return node.alpha
