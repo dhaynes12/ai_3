@@ -19,7 +19,7 @@ def getStartBoard():
     return spaces
 
 def move(spaces, player, posStr):
-    # Move Checking
+    # -- Move Checking --
     if (not posStr.isdigit()):
         if (player == SOUTH):
             return False, INVALID_MOVE_NOT_INT + " " + INVALID_MOVE_SOUTH
@@ -34,11 +34,13 @@ def move(spaces, player, posStr):
     elif (spaces[pos] == 0):
         return False, INVALID_MOVE_EMPTY
         
-    # Making the Move
+    # -- Beginning the Move --
     stones = spaces[pos]
     spaces[pos] = 0
     drops = 0
     nextPos = pos+1
+    
+    # -- Standard Movement --
     while(drops < stones):
         if (player == SOUTH and pos != 13) or (player == NORTH and pos != 6):
             spaces[nextPos] += 1
@@ -47,6 +49,22 @@ def move(spaces, player, posStr):
         nextPos += 1
         if nextPos > 13:
             nextPos = 0
+    
+    # -- Capturing --
+    # If the last stone lands in an empty pit on the moving player's 
+    # side, then any stones in the opposite pit are moved to their goal 
+    # pit. For checking if the last pit was empty, we check if the
+    # last space has 1 stone in it, since that means that before the
+    # movement it had 0 stones in it.
+    finalPos = nextPos - 1
+    if (player == SOUTH and finalPos <= 5 and finalPos >= 0 and spaces[finalPos] == 1):
+        oppositePos = 12 - finalPos
+        spaces[6] += spaces[oppositePos]
+        spaces[oppositePos] = 0
+    elif (player == NORTH and finalPos <= 12 and finalPos >= 7 and spaces[finalPos] == 1):
+        oppositePos = 12 - finalPos
+        spaces[13] += spaces[oppositePos]
+        spaces[oppositePos] = 0
     
     return True, ""
 
