@@ -1,4 +1,4 @@
-from Owari import Board
+import board
 
 class Node(object):
     
@@ -25,7 +25,7 @@ class Node(object):
                 continue
             else:
                 # need to add optional state pass to board
-                tempState = Board(self.state.spaces)
+                tempState = board.getStartBoard()
                 self.nextMoves.append(Node())
 
     # Generate how good a move is if node is a leaf node
