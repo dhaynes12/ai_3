@@ -42,9 +42,7 @@ class Node(object):
 
     # Generate how good a move is if node is a leaf node
     def setWeight(self):
-        self.weight = self.state[13] - self.state[6]
-
-
+        self.weight = goalPitVal(self.state)
 
 def ABPruning (node, alpha, beta):
     node.alpha = alpha
@@ -67,3 +65,29 @@ def ABPruning (node, alpha, beta):
             if node.beta <= node.alpha:
                 break
         return node.alpha
+
+def goalPitVal(spaces):
+    return state[13] - state[6]
+
+def sideVal(spaces):
+    return board.getSideValue(spaces, Board.NORTH) - board.getSideValue(spaces, Board.SOUTH)
+
+#I'm not sure if having the AI know if it can steal stones from the 
+#opponent and vice versa is useful, since it can already determine that
+#from seeing the point value go up from a successful capture.
+def captureVal(spaces, player):
+    capturePoints = 0
+    playerSpaces = None
+    
+    if (player == board.NORTH):
+        playerSpaces = range(7, 13)
+    elif (player == board.SOUTH):
+        playerSpaces = range(0, 6)
+    else:
+        raise Exception("player param in captureVal not set to valid player id")
+    
+    for i in playerSpaces:
+        if spaces[i] == 0 and spaces[12-i] > capturePoints:
+            capturePoints = spaces[12-i]
+    
+    return capturePoints
