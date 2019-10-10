@@ -42,7 +42,7 @@ def move(spaces, player, posStr):
     
     # -- Standard Movement --
     while(drops < stones):
-        if (player == SOUTH and pos != 13) or (player == NORTH and pos != 6):
+        if (player == SOUTH and nextPos != 13) or (player == NORTH and nextPos != 6):
             spaces[nextPos] += 1
             drops += 1
         
@@ -120,8 +120,8 @@ def getScore(spaces, player):
 
 def getSideValue(spaces, player):
     if (player == SOUTH):
-        return spaces[0:6].copy()
+        return sum(spaces[0:6])
     elif (player == NORTH):
-        return spaces[7:13].copy()
+        return sum(spaces[7:13])
     
     return None
