@@ -49,8 +49,8 @@ def ABPruning (node, alpha, beta):
     node.alpha = alpha
     node.beta = beta
     nextMove = None
-    if not node.nextMoves:
-        return node.weight
+    if node.depth == node.depthLim:
+        return node.weight, nextMove
     elif node.depth % 2 == 1:
         for i in node.nextMoves:
             tempVal, jnkState = ABPruning(i, node.alpha, node.beta)
@@ -74,7 +74,7 @@ def goalPitVal(spaces):
     return spaces[13] - spaces[6]
 
 def sideVal(spaces):
-    return board.getSideValue(spaces, Board.NORTH) - board.getSideValue(spaces, Board.SOUTH)
+    return board.getSideValue(spaces, board.NORTH) - board.getSideValue(spaces, board.SOUTH)
 
 #I'm not sure if having the AI know if it can steal stones from the 
 #opponent and vice versa is useful, since it can already determine that

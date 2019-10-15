@@ -11,6 +11,21 @@ def getWhoMovesFirst():
             return 1
         else:
             print("Improper input. Please try again.")
+
+def getDepthLim():
+    while True:
+        depthLim = input("Set the look ahead value ( >0 ): ")
+        try:
+            temp = int(depthLim)
+            if temp < 0:
+                print("value was not above 0")
+                continue
+            else:
+                return temp
+        except Exception as err:
+            print("Inputed value was not an int")
+
+ 
             
             
 def playerMove(spaces, player):
@@ -32,6 +47,7 @@ def playerMove(spaces, player):
 def main():
     spaces = board.getStartBoard()
     turn = getWhoMovesFirst()
+    depthLim = getDepthLim()
     gameEnd = False
     
     while not gameEnd:
@@ -43,7 +59,7 @@ def main():
             turn = board.NORTH
         elif turn == board.NORTH:
             print("North's turn")
-            tempNode = Node.Node(spaces[:], 0, 2)
+            tempNode = Node.Node(spaces[:], 0, depthLim)
             value, state = Node.ABPruning(tempNode, -10000, 10000)
             success, errorMessage = board.move(spaces, board.NORTH, str(state.cupMove))
             turn = board.SOUTH
