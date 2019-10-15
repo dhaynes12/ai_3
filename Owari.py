@@ -1,4 +1,5 @@
 import board
+import Node
 
 def getWhoMovesFirst():
     while True:
@@ -42,7 +43,9 @@ def main():
             turn = board.NORTH
         elif turn == board.NORTH:
             print("North's turn")
-            playerMove(spaces, turn)
+            tempNode = Node.Node(spaces[:], 0, 2)
+            value, state = Node.ABPruning(tempNode, -10000, 10000)
+            success, errorMessage = board.move(spaces, board.NORTH, str(state.cupMove))
             turn = board.SOUTH
         else:
             print("Error: Turn set to invalid player.")

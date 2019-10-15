@@ -1,8 +1,8 @@
-import board.py
+import board
 
 class Node(object):
     
-    def __init__(self, state, depth, depthLim):
+    def __init__(self, state, depth, depthLim, cupMove = -1):
         self.state = state          # board state of the node
         self.depth = depth          # current depth of node
         self.depthLim = depthLim    # depth of how far the tree can evaluate
@@ -10,34 +10,35 @@ class Node(object):
         self.beta = 0            
         self.nextMoves = []         # list of next possible moves
         self.weight = 0             # How good of a move is current node
+        self.cupMove = cupMove
 
         # if depth is at limit call weight function
         if depth == depthLim:
-            setWeight()
+            self.setWeight()
         else:       # else generate list of next possible moves
-            genNextMoves()
+            self.genNextMoves()
 
 
     def genNextMoves(self):
         if self.depth % 2 == 0:
             for i in range(7,13):
-                if self.state.spaces[i] == 0:
+                if self.state[i] == 0:
                     continue
                 else:
                     # need to add optional state pass to board
                     tempState = self.state[:]
-                    move(tempState, 1, i)
-                    tempNode = Node(tempState, self.depth+1, self.depthLim)
+                    board.move(tempState, 1, str(i))
+                    tempNode = Node(tempState, self.depth+1, self.depthLim, i)
                     self.nextMoves.append(tempNode)
         else:
             for i in range(0,6):
-                if self.state.spaces[i] == 0:
+                if self.state[i] == 0:
                     continue
                 else:
                     # need to add optional state pass to board
                     tempState = self.state[:]
-                    move(tempState, 0, i)
-                    tempNode = Node(tempState, self.depth+1, self.depthLim)
+                    board.move(tempState, 0, str(i))
+                    tempNode = Node(tempState, self.depth+1, self.depthLim, i)
                     self.nextMoves.append(tempNode)
 
     # Generate how good a move is if node is a leaf node
@@ -47,27 +48,30 @@ class Node(object):
 def ABPruning (node, alpha, beta):
     node.alpha = alpha
     node.beta = beta
+    nextMove = None
     if not node.nextMoves:
         return node.weight
     elif node.depth % 2 == 1:
         for i in node.nextMoves:
-            tempVal = ABPruning(i, node.alpha, node.beta)
+            tempVal, jnkState = ABPruning(i, node.alpha, node.beta)
             if tempVal < node.beta:
                 node.beta = tempVal
+                nextMove = i
             if node.beta <= node.alpha:
                 break
-        return node.beta
+        return node.beta, nextMove
     else:
         for i in node.nextMoves:
-            tempVal = ABPruning(i, node.alpha, node.beta)
+            tempVal, jnkState = ABPruning(i, node.alpha, node.beta)
             if tempVal > node.alpha:
                 node.alpha = tempVal
+                nextMove = i
             if node.beta <= node.alpha:
                 break
-        return node.alpha
+        return node.alpha, nextMove
 
 def goalPitVal(spaces):
-    return state[13] - state[6]
+    return spaces[13] - spaces[6]
 
 def sideVal(spaces):
     return board.getSideValue(spaces, Board.NORTH) - board.getSideValue(spaces, Board.SOUTH)
