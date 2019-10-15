@@ -51,6 +51,10 @@ def ABPruning (node, alpha, beta):
     nextMove = None
     if node.depth == node.depthLim:
         return node.weight, nextMove
+    elif len(node.nextMoves) == 0:
+        if (board.checkEndState(node.state)):
+            return node.weight, nextMove
+        raise Exception("Node has no next moves despite not being in an ending state")
     elif node.depth % 2 == 1:
         for i in node.nextMoves:
             tempVal, jnkState = ABPruning(i, node.alpha, node.beta)
