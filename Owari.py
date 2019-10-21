@@ -62,6 +62,7 @@ def main():
             tempNode = Node.Node(spaces[:], 0, depthLim)
             value, state = Node.ABPruning(tempNode, -10000, 10000)
             success, errorMessage = board.move(spaces, board.NORTH, str(state.cupMove))
+            print("Moving Cup:", state.cupMove, "\nTranslated to Cup:", state.cupMove - 7)
             turn = board.SOUTH
         else:
             print("Error: Turn set to invalid player.")
