@@ -38,7 +38,7 @@ def playerMove(spaces, player):
         available = board.NORTH_SPACES
     
     while not success:
-        select = input("Make your move (" + available + "): ")
+        select = input("\tMake your move (" + available + "): ")
         success, errorMessage = board.move(spaces, player, select)
         
         if not success:
@@ -51,28 +51,31 @@ def main():
     gameEnd = False
     
     while not gameEnd:
+        print("-------------------------------------")
         board.printBoard(spaces)
         
         if turn == board.SOUTH:
             print("South's turn")
+            print("-------------------------------------")
             playerMove(spaces, turn)
             turn = board.NORTH
         elif turn == board.NORTH:
             print("North's turn")
+            print("-------------------------------------")
             tempNode = Node.Node(spaces[:], 0, depthLim)
             value, state = Node.ABPruning(tempNode, -1000000, 1000000)
             success, errorMessage = board.move(spaces, board.NORTH, str(state.cupMove))
-            print("Moving Cup:", state.cupMove, "\nTranslated to Cup:", state.cupMove - 7)
+            print("\tMoving Cup:", state.cupMove, "\n\tTranslated to Cup:", state.cupMove - 7)
             turn = board.SOUTH
         else:
             print("Error: Turn set to invalid player.")
             break
-        
         gameEnd = board.checkEndState(spaces)
         if gameEnd:
             board.printBoard(spaces)
+            print("-------------------------------------")
             input("Game has ended. Hit enter to see results")
-            print("----- RESULTS -----")
+            print("\n----- RESULTS -----")
             print("South Points:", board.getScore(spaces, board.SOUTH))
             print("North Points:", board.getScore(spaces, board.NORTH))
             
