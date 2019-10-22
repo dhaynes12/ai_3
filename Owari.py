@@ -60,7 +60,7 @@ def main():
         elif turn == board.NORTH:
             print("North's turn")
             tempNode = Node.Node(spaces[:], 0, depthLim)
-            value, state = Node.ABPruning(tempNode, -10000, 10000)
+            value, state = Node.ABPruning(tempNode, -1000000, 1000000)
             success, errorMessage = board.move(spaces, board.NORTH, str(state.cupMove))
             print("Moving Cup:", state.cupMove, "\nTranslated to Cup:", state.cupMove - 7)
             turn = board.SOUTH
